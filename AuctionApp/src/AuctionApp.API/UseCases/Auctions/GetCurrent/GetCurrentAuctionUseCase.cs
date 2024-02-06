@@ -1,4 +1,6 @@
 ﻿using AuctionApp.API.Entities;
+using AuctionApp.API.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace AuctionApp.API.UseCases.Auctions.GetCurrent
 {
@@ -6,12 +8,12 @@ namespace AuctionApp.API.UseCases.Auctions.GetCurrent
     {
         public Auction Execute()
         {
-            return new Auction
-            {
-                Id = 1,
-                Ends = DateTime.Now,
-                Starts = DateTime.Now,
-            };
+            var repository = new AuctionDbContext();
+
+            return repository
+                    .Auctions
+                    .Include(auction => auction.Items)
+                    .First();
         }
     }
 }
