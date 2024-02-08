@@ -1,6 +1,6 @@
 ﻿using AuctionApp.API.Communication.Requests;
 using AuctionApp.API.Entities;
-using AuctionApp.API.Repositories;
+using AuctionApp.API.Interfaces;
 using AuctionApp.API.Services;
 
 namespace AuctionApp.API.UseCases.Offers.CreateOffer
@@ -8,13 +8,16 @@ namespace AuctionApp.API.UseCases.Offers.CreateOffer
     public class CreateOfferUseCase
     {
         private readonly LoggedUser _loggedUser;
+        private readonly IOffersRepository _repository;
 
-        public CreateOfferUseCase(LoggedUser loggedUser) => _loggedUser = loggedUser;
+        public CreateOfferUseCase(LoggedUser loggedUser, IOffersRepository repository)
+        {
+            _loggedUser = loggedUser;
+            _repository = repository;
+        }
 
         public int Execute(int itemId, RequestCreateOfferJson request)
         {
-            var repository = new AuctionDbContext();
-
             var user = _loggedUser.User();
 
             var offer = new Offer
@@ -25,9 +28,7 @@ namespace AuctionApp.API.UseCases.Offers.CreateOffer
                 UserId = user.Id
             };
 
-            repository.Offers.Add(offer);
-
-            repository.SaveChanges();
+            _repository.Add(offer);
 
             return offer.Id;
         }
