@@ -7,10 +7,10 @@ namespace AuctionApp.API.UseCases.Offers.CreateOffer
 {
     public class CreateOfferUseCase
     {
-        private readonly LoggedUser _loggedUser;
+        private readonly ILoggedUser _loggedUser;
         private readonly IOffersRepository _repository;
 
-        public CreateOfferUseCase(LoggedUser loggedUser, IOffersRepository repository)
+        public CreateOfferUseCase(ILoggedUser loggedUser, IOffersRepository repository)
         {
             _loggedUser = loggedUser;
             _repository = repository;

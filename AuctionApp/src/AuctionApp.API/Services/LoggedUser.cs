@@ -3,7 +3,7 @@ using AuctionApp.API.Interfaces;
 
 namespace AuctionApp.API.Services
 {
-    public class LoggedUser
+    public class LoggedUser : ILoggedUser
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IUsersRepository _repository;
